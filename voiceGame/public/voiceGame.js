@@ -1,7 +1,8 @@
 
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
-var WIDTH=500, var HEIGHT=50;
+var WIDTH=50;
+var HEIGHT=50;
 var rafID = null;
 
 var davidVoice = new AudioContext();
@@ -42,13 +43,15 @@ function gotStream(stream) {
     mediaStreamSource = davidVoice.createMediaStreamSource(stream);
     var meter = createAudioMeter(davidVoice);
     mediaStreamSource.connect(meter);
-    drawLoop();
+    window.setInterval(function(){drawLoop(meter);}, 250);
 }
 
-function drawLoop( time ) {
-    canvasContext.clearRect(0,0,WIDTH,HEIGHT);
+function drawLoop( item ) {
     canvasContext.fillStyle = "green";
-    canvasContext.fillRect(0, 0, meter.volume*WIDTH*1.4, HEIGHT);
-    console.log("%%%: ",meter.volume);
-    rafID = window.requestAnimationFrame( drawLoop );
+    console.log("Reached drawLoop: ", item.volume);
+    if (item.volume>0.01) {
+        console.log("%%%: ",item.volume);
+        canvasContext.fillRect(0, 0, WIDTH, HEIGHT);
+        WIDTH+=50;
+    }
 }
