@@ -3,9 +3,29 @@
   <head>
   </head>
   <body>
-  	<div>Yay!</div>
-  	<canvas id="meter"></canvas>
+  	<div id='target1' class='target'>Yay!</div>
+  	<canvas id="meter1" class="meter"></canvas>
+  	<div id='target2' class='target'>Yay!</div>
+  	<canvas id="meter1" class="meter"></canvas>
   	<script src="volume-meter.js"></script>
   	<script src="voiceGame.js"></script>
+  	<style>
+  		.meter {
+  			border: thick black solid;
+  			height: 50px;
+  			width: 500px;
+  			margin-left: 2%;
+  		}
+  		.target {
+  			font-size: 40px;
+  			margin: 2% 0 2% 2%;
+  		}
+  		#meter1{
+  			background-color: red;
+  		}
+  		#meter2{
+  			background-color: blue;
+  		}
+  	</style>
   </body>
 </html>

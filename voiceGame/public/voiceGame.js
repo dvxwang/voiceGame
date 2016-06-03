@@ -2,7 +2,6 @@
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
 var WIDTH=50;
-var HEIGHT=50;
 var rafID = null;
 
 var davidVoice = new AudioContext();
@@ -31,27 +30,36 @@ try {
     alert('getUserMedia threw exception :' + e);
 }
 
+var target;
+setTarget();
+
+function setTarget() {
+    target = Math.floor(Math.random()*3);    
+    document.getElementsByClassName("target")[0].innerHTML = ('Target: '+target);
+    document.getElementsByClassName("target")[1].innerHTML = ('Target: '+target);
+};
 
 function didntGetStream() {
     alert('Stream generation failed.');
 }
 
 var mediaStreamSource = null;
-var canvasContext = document.getElementById( "meter" ).getContext("2d");
+var canvasContext = document.getElementById("meter1").getContext("2d");
 
 function gotStream(stream) {
     mediaStreamSource = davidVoice.createMediaStreamSource(stream);
     var meter = createAudioMeter(davidVoice);
     mediaStreamSource.connect(meter);
-    window.setInterval(function(){drawLoop(meter);}, 250);
+    window.setInterval(function(){drawLoop(meter);}, 100);
 }
 
 function drawLoop( item ) {
     canvasContext.fillStyle = "green";
-    console.log("Reached drawLoop: ", item.volume);
-    if (item.volume>0.01) {
-        console.log("%%%: ",item.volume);
-        canvasContext.fillRect(0, 0, WIDTH, HEIGHT);
+    var temp = item.volume*50;
+    console.log("Reached drawLoop: ", temp,target);
+    if (temp>target && temp<target+1) {
+        canvasContext.fillRect(0, 0, WIDTH, 150);
         WIDTH+=50;
+        setTarget();
     }
 }
